@@ -131,8 +131,8 @@ class warp(torch.nn.Module):
             self.addterm = self.init_addterm()
             flow = flow + self.addterm
 
-        horizontal_flow = flow[0, 0, :, :].expand(1, 1, self.height, self.width)  # 第一个0是batch size
-        vertical_flow = flow[0, 1, :, :].expand(1, 1, self.height, self.width)
+        horizontal_flow = flow[:, 0, :, :].view(-1, 1, self.height, self.width)  # 第一个0是batch size
+        vertical_flow = flow[:, 1, :, :].view(-1, 1, self.height, self.width)
 
         horizontal_flow = horizontal_flow * 2 / (self.width - 1) - 1
         vertical_flow = vertical_flow * 2 / (self.height - 1) - 1
